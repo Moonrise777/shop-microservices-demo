@@ -1,0 +1,8 @@
+# Enviar un nuevo producto
+POST http://localhost:8081/products
+Content-Type: application/json
+
+{
+  "id": "A-500",
+  "name": "Teclado Mecánico de alta calidad"
+}

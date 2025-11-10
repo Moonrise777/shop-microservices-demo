@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Demo Asíncrona</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Tienda de Electrónicos (Demo)</h1>
+        <p>Prueba de microservicios asíncronos (Java + RabbitMQ)</p>
+    </header>
+
+    <main class="product-grid">
+        <div class="product-card">
+            <img src="https://i.imgur.com/gTjA1Yj.png" alt="Laptop">
+            <h3>Laptop Gamer</h3>
+            <p>Simula la compra de este producto.</p>
+            <button class="buy-btn" data-id="LPT-001" data-name="Laptop Gamer">
+                Simular Compra
+            </button>
+        </div>
+        <div class="product-card">
+            <img src="https://i.imgur.com/7A29a2c.png" alt="Teclado">
+            <h3>Teclado Mecánico</h3>
+            <p>El evento se procesará en segundo plano.</p>
+            <button class="buy-btn" data-id="KBD-002" data-name="Teclado Mecánico">
+                Simular Compra
+            </button>
+        </div>
+        <div class="product-card">
+            <img src="https://i.imgur.com/SjCMWqP.png" alt="Mouse">
+            <h3>Mouse Óptico</h3>
+            <p>Revisa la consola del servicio de notificación.</p>
+            <button class="buy-btn" data-id="MSE-003" data-name="Mouse Óptico">
+                Simular Compra
+            </button>
+        </div>
+    </main>
+
+    <div id="toast" class="toast">
+        <span id="toast-message"></span>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
