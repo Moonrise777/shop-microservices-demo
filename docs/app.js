@@ -1,4 +1,4 @@
-const API_URL = "https://TU-PRODUCT-API-URL.onrender.com";
+const API_URL = "https://product-api-wn79.onrender.com";
 
 // (La parte que tiene 'simulatePurchase' y 'showToast')
 document.addEventListener("DOMContentLoaded", () => {
