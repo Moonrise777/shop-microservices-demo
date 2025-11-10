@@ -1,11 +1,23 @@
-# Usamos una imagen base oficial de Java 17
-FROM eclipse-temurin:17-jdk-jammy
+# Etapa 1: construir la aplicación con Maven
+FROM eclipse-temurin:17-jdk-jammy AS builder
+WORKDIR /app
 
-# Copiamos el archivo .jar compilado (que Maven crea) al contenedor
-COPY target/*.jar app.jar
+# Copiar pom.xml y dependencias primero para aprovechar cache
+COPY pom.xml .
+COPY mvnw .
+COPY .mvn .mvn
+RUN ./mvnw dependency:go-offline -B
 
-# Exponemos el puerto (solo relevante para product-api)
+# Copiar el resto del código y compilar
+COPY src src
+RUN ./mvnw clean package -DskipTests
+
+# Etapa 2: imagen final más ligera
+FROM eclipse-temurin:17-jre-jammy
+WORKDIR /app
+
+# Copiamos el .jar generado desde la etapa anterior
+COPY --from=builder /app/target/*.jar app.jar
+
 EXPOSE 8080
-
-# El comando para ejecutar la aplicación cuando el contenedor inicie
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
