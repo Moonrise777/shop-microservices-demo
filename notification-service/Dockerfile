@@ -1,25 +1,28 @@
-# ---- Etapa 1: Compilación ----
-FROM maven:3.9.9-eclipse-temurin-17 AS build
+# ---- Etapa 1: Construcción ----
+FROM eclipse-temurin:17-jdk-jammy AS builder
 WORKDIR /app
 
-# Copiamos el archivo pom.xml y descargamos dependencias primero
+# Copiamos archivos de Maven Wrapper y el POM
+COPY mvnw .
+COPY .mvn .mvn
 COPY pom.xml .
-RUN mvn dependency:go-offline
 
-# Copiamos el resto del código y compilamos
+# Damos permisos de ejecución al wrapper
+RUN chmod +x mvnw
+
+# Descargamos dependencias sin compilar todavía
+RUN ./mvnw dependency:go-offline -B
+
+# Copiamos el código fuente y compilamos
 COPY src ./src
-RUN mvn clean package -DskipTests
+RUN ./mvnw clean package -DskipTests
 
 # ---- Etapa 2: Ejecución ----
 FROM eclipse-temurin:17-jdk-jammy
 WORKDIR /app
 
-# Copiamos el .jar desde la etapa anterior
-COPY --from=build /app/target/*.jar app.jar
+# Copiamos el JAR desde la etapa anterior
+COPY --from=builder /app/target/*.jar app.jar
 
-# Render define automáticamente $PORT, lo usamos aquí
-ENV PORT=8080
 EXPOSE 8080
-
-# Comando para ejecutar la app
 ENTRYPOINT ["java", "-jar", "app.jar"]
