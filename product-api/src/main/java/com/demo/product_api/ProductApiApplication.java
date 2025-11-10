@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 // Un DTO (Objeto de Transferencia de Datos) simple para el producto
 record Product(String id, String name) {
@@ -16,6 +17,7 @@ record Product(String id, String name) {
 
 @SpringBootApplication
 @RestController
+@CrossOrigin(origins = "*")
 public class ProductApiApplication {
 
     private static final Logger log = LoggerFactory.getLogger(ProductApiApplication.class);
